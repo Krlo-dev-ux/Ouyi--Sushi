@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Serpiente</title>
+    <style>
+        body {
+            background-color: #282c34;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .snake-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #00ffcc;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<script>
+    const numberOfDots = 20;
+    const snakeParts = [];
+    for (let i = 0; i < numberOfDots; i++) {
+        let dot = document.createElement('div');
+        dot.className = 'snake-dot';
+        dot.style.transform = scale(${1 - (i / numberOfDots)});
+        document.body.appendChild(dot);
+        snakeParts.push({ element: dot, x: window.innerWidth/2, y: window.innerHeight/2 });
+    }
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    function animate() {
+        snakeParts[0].x += (mouseX - snakeParts[0].x) * 0.2;
+        snakeParts[0].y += (mouseY - snakeParts[0].y) * 0.2;
+        snakeParts[0].element.style.left = snakeParts[0].x + 'px';
+        snakeParts[0].element.style.top = snakeParts[0].y + 'px';
+        for (let i = 1; i < numberOfDots; i++) {
+            snakeParts[i].x += (snakeParts[i-1].x - snakeParts[i].x) * 0.3;
+            snakeParts[i].y += (snakeParts[i-1].y - snakeParts[i].y) * 0.3;
+            snakeParts[i].element.style.left = snakeParts[i].x + 'px';
+            snakeParts[i].element.style.top = snakeParts[i].y + 'px';
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
+</script>
+</body>
+</html>
